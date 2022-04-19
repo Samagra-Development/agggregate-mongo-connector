@@ -1,16 +1,20 @@
 """
 Create Flask Application and Initialize Database
 """
+import os
 import json
 import pymongo
 from pymongo import MongoClient
 from bson import json_util
 from flask import Flask
 from flask import request
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
-client = MongoClient('localhost', 27017)#host uri
-db = client.odkrequest #Select the database
+client = MongoClient(os.environ.get("MONGO_HOST"), os.environ.get("MONGO_PORT"))#host uri
+db_name = os.environ.get("DB_NAME")
+db = client.db_name #Select the database
 
 @app.route("/save", methods=['POST'])
 def save_data():
